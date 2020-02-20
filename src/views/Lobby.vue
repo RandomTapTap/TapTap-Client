@@ -1,17 +1,13 @@
 <template>
   <div>
-    <center><h2>Tap-tap Racer</h2></center>
-    <RoomList />
+    <center><h2>Taap-Taaap-Taaaaappp-Taaaaaaaaaaappppp Racer</h2></center>
+    <router-view />
   </div>
 </template>
 
 <script>
-import RoomList from '@/components/RoomList.vue'
 export default {
-  name: 'Lobby',
-  components: {
-    RoomList
-  }
+  name: 'Lobby'
 }
 </script>
 

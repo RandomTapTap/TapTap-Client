@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button type="button" class="btn btn-success" style="margin: 12px;">Create room</button>
+        <b-button class="btn btn-success" style="margin: 12px;" v-b-modal="'add-form'">Create room</b-button>
         <div class="room-container">
             <b-card
                 title="Room name"
@@ -69,6 +69,35 @@
                 <b-button href="#" variant="primary">Join room</b-button>
             </b-card>
         </div>
+
+        <b-modal id="add-form">
+            <b-form>
+                <b-form-group
+                    id="input-group-1"
+                    label="Room name"
+                    label-for="input-1"
+                >
+                <b-form-input
+                id="input-1"
+                type="text"
+                required
+                placeholder="Enter room name"
+                ></b-form-input>
+                </b-form-group>
+                <b-form-group
+                    id="input-group-1"
+                    label="Room decription"
+                    label-for="input-1"
+                >
+                <b-form-input
+                id="input-1"
+                type="text"
+                required
+                placeholder="Enter description to your room"
+                ></b-form-input>
+                </b-form-group>
+            </b-form>
+        </b-modal>
     </div>
 </template>
 
