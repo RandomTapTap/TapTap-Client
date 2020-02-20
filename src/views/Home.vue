@@ -2,6 +2,7 @@
   <b-container
     fluid
     align-v="center"
+    min-height
   >
     <b-jumbotron
       bg-variant="info"
