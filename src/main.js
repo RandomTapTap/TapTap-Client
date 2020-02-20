@@ -11,6 +11,7 @@ Vue.use(IconsPlugin)
 Vue.use(JumbotronPlugin)
 Vue.use(ImagePlugin)
 
+
 Vue.config.productionTip = false
 
 new Vue({
