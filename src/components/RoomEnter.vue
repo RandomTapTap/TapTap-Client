@@ -77,24 +77,36 @@ export default {
 
 <style>
     .main-container {
-        background-color: rgb(182, 177, 177);
         border-radius: 8px;
         margin: 14px;
         padding: 8px;
+        border-style: solid;
+        border-color: steelblue;
+    }
+    .room-name {
+        display: flex;
+        justify-content: center;
     }
     .room-container {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
+        justify-content: center;
         width: 100%;
     }
     .room-card {
         margin: 12px;
     }
     .room-master {
+        display: flex;
+        justify-content: center;
         margin: 8px;
     }
     .start-container {
+        display: flex;
+        justify-content: center;
+    }
+    .player {
         display: flex;
         justify-content: center;
     }
