@@ -59,7 +59,11 @@ export default {
       }
   },
   methods: {
-      oneRoom (id) {
+      oneRoom (idRoom) {
+          socket.emit('joinRoom', {
+              username: localStorage.username,
+              idRoom: idRoom
+          })
           this.$router.push('/room')
       },
       backToWelcomePage () {
