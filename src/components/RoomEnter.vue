@@ -71,7 +71,8 @@
 
 <script>
 export default {
-    name: 'RoomEnter'
+    name: 'RoomEnter',
+    
 }
 </script>
 
