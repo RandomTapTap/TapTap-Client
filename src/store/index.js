@@ -10,7 +10,15 @@ export default new Vuex.Store({
     username: '',
     roomId: null,
     errorMessage: '',
-    rooms: []
+    rooms: [],
+    playerBars: [
+      { username: 'Ayy', variant: 'success', value: 0 },
+      { username: 'Oyy', variant: 'success', value: 0 },
+      { username: 'AAA', variant: 'success', value: 0 },
+      { username: 'BBB', variant: 'success', value: 0 },
+      { username: 'CCC', variant: 'success', value: 0 },
+      { username: 'DDD', variant: 'success', value: 0 }
+    ]
   },
   mutations: {
     inputUsername (state, payload) {
@@ -22,6 +30,9 @@ export default new Vuex.Store({
     },
     allRooms (state, payload) {
       state.rooms = payload
+    },
+    incrementValue (state, index) {
+      state.playerBars[index].value++
     }
   },
   actions: {
