@@ -4,7 +4,9 @@
         <b-button class="btn btn-success" style="margin: 12px;" v-b-modal="'add-form'">Create room</b-button>
         <div class="room-container">
             <b-card
-                title="Room name"
+                v-for="(room, i) in rooms"
+                :key="i"
+                :title="room.RoomName"
                 style="max-width: 20rem;"
                 class="room-card"
             >
@@ -12,62 +14,7 @@
                     Room description goes here
                 </b-card-text>
 
-                <b-button href="#" variant="primary">Join room</b-button>
-            </b-card>
-            <b-card
-                title="Room name"
-                style="max-width: 20rem;"
-                class="room-card"
-            >
-                <b-card-text>
-                    Room description goes here
-                </b-card-text>
-
-                <b-button href="#" variant="primary">Join room</b-button>
-            </b-card>
-            <b-card
-                title="Room name"
-                style="max-width: 20rem;"
-                class="room-card"
-            >
-                <b-card-text>
-                    Room description goes here
-                </b-card-text>
-
-                <b-button href="#" variant="primary">Join room</b-button>
-            </b-card>
-            <b-card
-                title="Room name"
-                style="max-width: 20rem;"
-                class="room-card"
-            >
-                <b-card-text>
-                    Room description goes here
-                </b-card-text>
-
-                <b-button href="#" variant="primary">Join room</b-button>
-            </b-card>
-            <b-card
-                title="Room name"
-                style="max-width: 20rem;"
-                class="room-card"
-            >
-                <b-card-text>
-                    Room description goes here
-                </b-card-text>
-
-                <b-button href="#" variant="primary">Join room</b-button>
-            </b-card>
-            <b-card
-                title="Room name"
-                style="max-width: 20rem;"
-                class="room-card"
-            >
-                <b-card-text>
-                    Room description goes here
-                </b-card-text>
-
-                <b-button href="#" variant="primary">Join room</b-button>
+                <b-button @click="oneRoom(room.id)" variant="primary">Join room</b-button>
             </b-card>
         </div>
 
@@ -107,11 +54,26 @@ export default {
           room_name: ''
       }
   },
+  computed: {
+      rooms () {
+          return this.$store.state.rooms
+      }
+  },
   methods: {
+      oneRoom (id) {
+          this.$router.push('/room')
+      },
       backToWelcomePage () {
           localStorage.removeItem('username')
           localStorage.removeItem('RoomId')
           this.$router.push('/')
+      },
+      roomData () {
+        this.$store.dispatch('fetchRooms')
+      },
+      fetchRooms () {
+          console.log('masuk')
+          socket.emit('fetchRooms')
       },
       createRoom () {
           socket.emit('createdRoom', {
@@ -127,9 +89,13 @@ export default {
           localStorage.RoomMaster = payload.RoomMaster
           this.$router.push('/room')
       })
+      this.fetchRooms()
+      this.roomData()
   },
   beforeDestroy () {
+      localStorage.removeItem('roomName')
       localStorage.removeItem('roomData')
+      localStorage.removeItem('idRroom')
   }
 }
 </script>

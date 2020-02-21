@@ -1,14 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
+import io from 'socket.io-client'
 
 Vue.use(Vuex)
+const socket = io.connect('http://localhost:4000')
 
 export default new Vuex.Store({
   state: {
     username: '',
     roomId: null,
-    errorMessage: ''
+    errorMessage: '',
+    rooms: []
   },
   mutations: {
     inputUsername (state, payload) {
@@ -17,24 +19,16 @@ export default new Vuex.Store({
     },
     error (state, payload) {
       state.errorMessage = payload.message
+    },
+    allRooms (state, payload) {
+      state.rooms = payload
     }
   },
   actions: {
-    registerNewPlayer (context, username) {
-      axios({
-        method: 'POST',
-        url: 'http/localhost:4000/addPlayer',
-        data: {
-          username: username
-        }
+    fetchRooms ({ commit }) {
+      socket.on('showAllRooms', payload => {
+        commit('allRooms', payload)
       })
-        .then(({ data }) => {
-          console.log('ayy')
-          context.commit('inputUsername', data)
-        })
-        .catch(err => {
-          context.commit('error', err)
-        })
     }
   }
 })
