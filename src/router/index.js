@@ -26,6 +26,18 @@ const routes = [{
     ]
   },
   {
+    path: '/room',
+    name: 'RoomEnter',
+    component: Lobby,
+    children: [
+      {
+        path: '',
+        name: 'WaitingRoom',
+        component: RoomEnter
+      }
+    ]
+  },
+  {
     path: '/game-on',
     name: 'Game On',
     component: Lobby,
@@ -36,11 +48,6 @@ const routes = [{
         component: GameOn
       }
     ]
-  },
-  {
-    path: '/room',
-    name: 'RoomEnter',
-    component: RoomEnter
   }
 ]
 
