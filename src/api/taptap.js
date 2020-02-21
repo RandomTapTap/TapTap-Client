@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const taptap = axios.create({
-  baseURL: 'http://localhost:4000'
+  baseURL: 'https://polar-ridge-17555.herokuapp.com'
 })
 
 export default taptap

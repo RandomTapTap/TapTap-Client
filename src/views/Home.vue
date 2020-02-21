@@ -69,7 +69,7 @@
 
 <script>
 import io from 'socket.io-client'
-const socket = io.connect('http://localhost:4000')
+const socket = io.connect('https://polar-ridge-17555.herokuapp.com')
 
 export default {
   name: 'Home',
