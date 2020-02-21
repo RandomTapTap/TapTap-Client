@@ -19,42 +19,9 @@
                 </b-card>
             </div>
             <div class="player">
-                <div class="room-container">
+                <div class="room-container" v-for="data in players" :key="data.id">
                     <b-card
-                        title="Player name"
-                        img-src="https://picsum.photos/600/300/?image=25"
-                        img-alt="Image"
-                        img-top
-                        style="max-width: 12rem;"
-                        class="room-card"
-                    >
-                        <b-button href="#" variant="danger">Kick</b-button>
-                    </b-card>
-                    <b-card
-                        title="Player name"
-                        img-src="https://picsum.photos/600/300/?image=25"
-                        img-alt="Image"
-                        img-top
-                        style="max-width: 12rem;"
-                        class="room-card"
-                    >
-                        <b-button href="#" variant="danger">Kick</b-button>
-                    </b-card>
-                    <b-card
-                        title="Player name"
-                        img-src="https://picsum.photos/600/300/?image=25"
-                        img-alt="Image"
-                        img-top
-                        style="max-width: 12rem;"
-                        class="room-card"
-                    >
-                        <b-button href="#" variant="danger">Kick</b-button>
-                    </b-card>
-                    <b-card
-                        title="Player name"
-                        img-src="https://picsum.photos/600/300/?image=25"
-                        img-alt="Image"
-                        img-top
+                        :title="data.username"
                         style="max-width: 12rem;"
                         class="room-card"
                     >
@@ -70,8 +37,36 @@
 </template>
 
 <script>
+import io from 'socket.io-client'
+const socket = io.connect('http://localhost:4000')
 export default {
-    name: 'RoomEnter'
+    name: 'RoomEnter',
+    data() {
+        return {
+            players: []
+        }
+    },
+    methods: {
+        fetchPlayers() {
+            socket.emit("fetchPlayers", payload => {
+                
+            })
+        },
+        fetchRoomMaster() {
+            socket.emit("fetchRoomMaster", payload => {
+            })
+        }
+    },
+    created(){
+        this.fetchPlayers()
+
+        socket.on("getPlayers", (player) => {
+            this.players.push(player)
+            console.log()
+        })
+
+        console.log(this.players)
+    }
 }
 </script>
 
