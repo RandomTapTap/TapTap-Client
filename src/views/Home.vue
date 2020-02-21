@@ -68,26 +68,36 @@
 </template>
 
 <script>
+import io from 'socket.io-client'
+const socket = io.connect('http://localhost:4000')
+
 export default {
   name: 'Home',
   data () {
     return {
-      username: ''
+      username: '',
+      message: ''
     }
   },
   computed: {
     validation () {
       return this.username.length >= 1
     }
-    // username () {
-    //   return this.$store.state.username
-    // }
   },
   methods: {
     submitToLobby () {
-      this.$store.dispatch('registerNewPlayer', this.username)
-      this.$router.push('/lobby')
+      console.log(this.username)
+      socket.emit('addPlayer', {
+        username: this.username
+      })
     }
+  },
+  created () {
+    socket.on('playerAdded', payload => {
+      localStorage.username = payload.username
+      localStorage.RoomId = payload.RoomId
+      this.$router.push('/lobby')
+    })
   }
 }
 </script>
