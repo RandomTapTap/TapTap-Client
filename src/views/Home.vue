@@ -4,6 +4,32 @@
     align-v="center"
     min-height
   >
+    <b-modal
+      id="register"
+      centered
+      busy
+      title="Input Your Username"
+      hide-footer
+    >
+      <b-form inline @submit.prevent="submitToLobby">
+          <label class="sr-only" for="inline-form-input-name">Username</label>
+          <b-input
+            id="inline-form-input-name"
+            class="mb-2 mr-sm-2 mb-sm-0"
+            placeholder="Username"
+            v-model="username"
+            :state="validation"
+            required
+          ></b-input>
+          <b-form-invalid-feedback :state="validation">
+            Minimum 1 character
+          </b-form-invalid-feedback>
+          <b-form-valid-feedback :state="validation">
+            Looks Good.
+          </b-form-valid-feedback>
+        <b-button type="submit" variant="primary">Enter</b-button>
+      </b-form>
+    </b-modal>
     <b-jumbotron
       bg-variant="info"
       text-variant="light"
@@ -12,7 +38,7 @@
       <template
         v-slot:header
       >
-        <img src="../assets/gif/ggj18-anim-fly.gif" rounded="circle" alt="Logo GIF"> <span>Random Tap Tap</span>
+        <img src="../assets/gif/ggj18-anim-fly.gif" rounded="circle" alt="Logo GIF"> <span>Random Tap-Tap Racer</span>
       </template>
 
       <template
@@ -32,7 +58,7 @@
       </b-alert>
 
       <b-button
-        to="/lobby"
+        v-b-modal.register
       >
         Go to Lobby
         <b-icon-house></b-icon-house>
@@ -44,8 +70,24 @@
 <script>
 export default {
   name: 'Home',
-  created () {
-    document.title = 'Random Tap Tap'
+  data () {
+    return {
+      username: ''
+    }
+  },
+  computed: {
+    validation () {
+      return this.username.length >= 1
+    }
+    // username () {
+    //   return this.$store.state.username
+    // }
+  },
+  methods: {
+    submitToLobby () {
+      this.$store.dispatch('registerNewPlayer', this.username)
+      this.$router.push('/lobby')
+    }
   }
 }
 </script>

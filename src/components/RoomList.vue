@@ -1,5 +1,6 @@
 <template>
     <div>
+        <b-button @click.prevent="backToWelcomePage" class="btn btn-secondary" style="margin: 12px;">Back To Home</b-button>
         <button type="button" class="btn btn-success" style="margin: 12px;">Create room</button>
         <div class="room-container">
             <b-card
@@ -74,7 +75,13 @@
 
 <script>
 export default {
-  name: 'RoomList'
+  name: 'RoomList',
+  methods: {
+      backToWelcomePage () {
+          localStorage.removeItem('username')
+          this.$router.push('/')
+      }
+  }
 }
 </script>
 
