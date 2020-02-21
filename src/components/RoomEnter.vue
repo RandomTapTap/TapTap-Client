@@ -19,7 +19,7 @@
                 </b-card>
             </div>
             <div class="start-container">
-                <b-button href="#" variant="success">Start</b-button>
+                <b-button href="#" variant="success" @click.prevent="linkStart">Start</b-button>
             </div>
             <div class="player">
                 <div class="room-container" v-for="data in players" :key="data.id">
@@ -51,25 +51,36 @@ export default {
     },
     methods: {
         fetchPlayers() {
-            socket.emit("fetchPlayers", payload => {
-                
-            })
+            socket.emit("fetchPlayers")
         },
         fetchRoomMaster() {
-            socket.emit("fetchRoomMaster", payload => {
-            })
+            socket.emit("fetchRoomMaster")
+        },
+        linkStart () {
+            // this.$store.commit('linkStart', this.players)
+            socket.emit('linkStart')
+            // this.$router.push('/game-on')
         }
     },
     created(){
         this.fetchPlayers()
 
-        socket.on("getPlayers", (player) => {
-            this.players.push(player)
-            console.log()
-        })
+        // socket.on("getPlayers", (player) => {
+        //     this.players = player
+        // })
 
         socket.on('allPlayersInRoom', payload => {
             this.players = payload
+        })
+
+        socket.on('linkStarting', () => {
+            this.$store.commit('linkStart', this.players)
+            this.$router.push('/game-on')
+        })
+
+        socket.on('roomDeleted', () => {
+            this.$store.commit('deleteBars')
+            this.players = []
         })
 
         console.log(this.players)

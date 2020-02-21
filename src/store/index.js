@@ -11,14 +11,7 @@ export default new Vuex.Store({
     roomId: null,
     errorMessage: '',
     rooms: [],
-    playerBars: [
-      { username: 'Ayy', variant: 'success', value: 0 },
-      { username: 'Oyy', variant: 'success', value: 0 },
-      { username: 'AAA', variant: 'success', value: 0 },
-      { username: 'BBB', variant: 'success', value: 0 },
-      { username: 'CCC', variant: 'success', value: 0 },
-      { username: 'DDD', variant: 'success', value: 0 }
-    ]
+    playerBars: []
   },
   mutations: {
     inputUsername (state, payload) {
@@ -33,6 +26,19 @@ export default new Vuex.Store({
     },
     incrementValue (state, index) {
       state.playerBars[index].value++
+    },
+    linkStart (state, payload) {
+      payload.forEach((player, i) => {
+        state.playerBars.push({
+          index: i,
+          username: player.username,
+          variant: 'success',
+          value: 0
+        })
+      })
+    },
+    deleteBars () {
+      state.playerBars = []
     }
   },
   actions: {
