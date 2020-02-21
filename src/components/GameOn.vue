@@ -1,31 +1,37 @@
 <template>
   <b-container>
-    <b-modal @shown="focusMyElement">
-      <div>
-        <b-button>I Don't Have Focus</b-button>
-      </div>
-
-      <div>
-        <b-form-input></b-form-input>
-      </div>
-
-      <div>
-        <!-- Element to gain focus when modal is opened -->
-        <b-form-input ref="focusThis"></b-form-input>
-      </div>
-
-      <div>
-        <b-form-input></b-form-input>
-      </div>
+    <b-modal id="countdown"
+      centered
+      hide-footer
+      hide-header
+      hide-header-close
+    >
+      <h1>ayy menang</h1>
+      <b-button @click='backToLobby'>Back To Lobby</b-button>
+    </b-modal>
+    <b-modal id="winnerAlert"
+      centered
+      hide-footer
+      hide-header
+      hide-header-close
+    >
+      <h1>ayy menang</h1>
+      <b-button @click='backToLobby'>Back To Lobby</b-button>
     </b-modal>
     <div id="game-progress">
       <div v-for="(bar, i) in bars" :key="i" class="row mb-1">
         <div class="col-sm-2">{{ bar.variant }}:</div>
+        <div class="col-sm-2">
+        </div>
         <div class="col-sm-10 pt-1">
           <b-progress :value="bar.value" :variant="bar.variant" :key="bar.variant"></b-progress>
         </div>
+        {{bar.key}}
+        {{bar.value}}
       </div>
     </div>
+    <label for="inputLetter">Input</label>
+    <input type="text" v-model="input">
   </b-container>
 </template>
 
@@ -33,26 +39,54 @@
 export default {
     data() {
         return {
-        bars: [
-            { variant: 'success', value: 75 },
-            { variant: 'info', value: 75 },
-            { variant: 'warning', value: 75 },
-            { variant: 'danger', value: 75 },
-            { variant: 'primary', value: 75 },
-            { variant: 'secondary', value: 75 },
-            { variant: 'dark', value: 75 }
-        ],
-        timer: null
+          input: '',
+          countdown: 3
         }
     },
-    mounted() {
-        this.timer = setInterval(() => {
-          this.bars.forEach(bar => (bar.value = 25 + Math.random() * 75))
-        }, 2000)
+    computed: {
+      bars () {
+        return this.$store.state.playerBars
+      }
     },
-    beforeDestroy() {
-        clearInterval(this.timer)
-        this.timer = null
+    methods: {
+      startGame () {
+        this.bars.forEach(el => {
+          let randomCharCode = Math.floor(Math.random()*(91 - 65) + 65)
+          el.key = String.fromCharCode(randomCharCode)
+        })
+      },
+      showModal() {
+        setTimeout(() => {
+          this.$root.$emit('bv::show::modal', 'winnerAlert')
+        }, 30000)
+      },
+      showCountdown () {
+        this.$root.$emit('bv::show::modal', 'countdown')
+        setInterval(() => {
+          this.countdown--
+        }, 1000)
+        setTimeout(() => {
+          this.$root.$emit('bv::hide::modal', 'winnerAlert')
+        }, 3000)
+      },
+      backToLobby () {
+        this.$router.push('/lobby')
+      }
+    },
+    created () {
+      this.startGame()
+      this.showModal()
+      this.showCountdown()
+    },
+    watch: {
+      input () {
+        if (this.input === this.bars[0].key) {
+          this.$store.commit('incrementValue', 0)
+          this.input = ''
+        } else {
+          this.input = ''
+        }
+      }
     }
 }
 </script>
