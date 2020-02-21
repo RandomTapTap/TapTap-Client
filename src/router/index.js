@@ -2,7 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Lobby from '../views/Lobby.vue'
-import RommList from '../components/RoomList.vue'
+import RoomList from '../components/RoomList.vue'
+import RoomEnter from '../components/RoomEnter.vue'
 import GameOn from '../components/GameOn.vue'
 
 Vue.use(VueRouter)
@@ -20,7 +21,7 @@ const routes = [{
       {
         path: '',
         name: 'RoomList',
-        component: RommList
+        component: RoomList
       }
     ]
   },
@@ -35,6 +36,11 @@ const routes = [{
         component: GameOn
       }
     ]
+  },
+  {
+    path: '/room',
+    name: 'RoomEnter',
+    component: RoomEnter
   }
 ]
 
