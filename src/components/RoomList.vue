@@ -46,7 +46,6 @@
 <script>
 import io from 'socket.io-client'
 const socket = io.connect('http://localhost:4000')
-
 export default {
   name: 'RoomList',
   data () {
@@ -60,7 +59,11 @@ export default {
       }
   },
   methods: {
-      oneRoom (id) {
+      oneRoom (idRoom) {
+          socket.emit('joinRoom', {
+              username: localStorage.username,
+              idRoom: idRoom
+          })
           this.$router.push('/room')
       },
       backToWelcomePage () {
