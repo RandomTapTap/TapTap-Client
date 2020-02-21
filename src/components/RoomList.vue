@@ -71,45 +71,65 @@
             </b-card>
         </div>
 
-        <b-modal id="add-form">
-            <b-form>
+        <b-modal id="add-form"
+            title="New Room"
+            hide-footer=true
+            centered=true
+        >
+            <b-form @submit.prevent="createRoom">
                 <b-form-group
                     id="input-group-1"
                     label="Room name"
                     label-for="input-1"
                 >
-                <b-form-input
-                id="input-1"
-                type="text"
-                required
-                placeholder="Enter room name"
-                ></b-form-input>
+                    <b-form-input
+                    id="input-1"
+                    type="text"
+                    required
+                    placeholder="Enter room name"
+                    v-model="room_name"
+                    ></b-form-input>
                 </b-form-group>
-                <b-form-group
-                    id="input-group-1"
-                    label="Room decription"
-                    label-for="input-1"
-                >
-                <b-form-input
-                id="input-1"
-                type="text"
-                required
-                placeholder="Enter description to your room"
-                ></b-form-input>
-                </b-form-group>
+                <b-button type="submit" variant="primary">Create</b-button>
             </b-form>
         </b-modal>
     </div>
 </template>
 
 <script>
+import io from 'socket.io-client'
+const socket = io.connect('http://localhost:4000')
+
 export default {
   name: 'RoomList',
+  data () {
+      return {
+          room_name: ''
+      }
+  },
   methods: {
       backToWelcomePage () {
           localStorage.removeItem('username')
+          localStorage.removeItem('RoomId')
           this.$router.push('/')
+      },
+      createRoom () {
+          socket.emit('createRoom', {
+              RoomName: this.room_name,
+              username: localStorage.username
+          })
       }
+  },
+  created () {
+      socket.on('AddRoomMaster', payload => {
+          localStorage.idRoom = payload.id,
+          localStorage.RoomName = payload.RoomName
+          localStorage.RoomMaster = payload.RoomMaster
+          this.$router.push('/room')
+      })
+  },
+  beforeDestroy () {
+      localStorage.removeItem('roomData')
   }
 }
 </script>

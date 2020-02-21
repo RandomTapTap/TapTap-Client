@@ -86,7 +86,6 @@ export default {
   },
   methods: {
     submitToLobby () {
-      console.log(this.username)
       socket.emit('addPlayer', {
         username: this.username
       })
@@ -95,7 +94,7 @@ export default {
   created () {
     socket.on('playerAdded', payload => {
       localStorage.username = payload.username
-      localStorage.RoomId = payload.RoomId
+      localStorage.idRoom = payload.RoomId
       this.$router.push('/lobby')
     })
   }
