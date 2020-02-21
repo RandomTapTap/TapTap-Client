@@ -20,13 +20,12 @@
     </b-modal>
     <div id="game-progress">
       <div v-for="(bar, i) in bars" :key="i" class="row mb-1">
-        <div class="col-sm-2">{{ bar.variant }}:</div>
+        <div class="col-sm-2">{{ bar.username }}:</div>
         <div class="col-sm-2">
         </div>
         <div class="col-sm-10 pt-1">
           <b-progress :value="bar.value" :variant="bar.variant" :key="bar.variant"></b-progress>
         </div>
-        {{bar.key}}
         {{bar.value}}
       </div>
     </div>
@@ -36,6 +35,9 @@
 </template>
 
 <script>
+import io from 'socket.io-client'
+const socket = io.connect('http://localhost:4000')
+
 export default {
     data() {
         return {
@@ -53,6 +55,9 @@ export default {
         this.bars.forEach(el => {
           let randomCharCode = Math.floor(Math.random()*(91 - 65) + 65)
           el.key = String.fromCharCode(randomCharCode)
+          if(localStorage.username == el.username) {
+            localStorage.userIndex = el.index
+          }
         })
       },
       showModal() {
@@ -71,17 +76,20 @@ export default {
       },
       backToLobby () {
         this.$router.push('/lobby')
+        this.$store.commit('deleteBars')
+        socket.emit('deleteRoom', localStorage.RoomName)
       }
     },
     created () {
       this.startGame()
       this.showModal()
       this.showCountdown()
+      
     },
     watch: {
       input () {
-        if (this.input === this.bars[0].key) {
-          this.$store.commit('incrementValue', 0)
+        if (this.input === this.bars[localStorage.userIndex].key) {
+          this.$store.commit('incrementValue', localStorage.userIndex)
           this.input = ''
         } else {
           this.input = ''
