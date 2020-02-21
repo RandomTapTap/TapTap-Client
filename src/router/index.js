@@ -1,22 +1,53 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import Lobby from '../views/Lobby.vue'
+import RoomList from '../components/RoomList.vue'
+import RoomEnter from '../components/RoomEnter.vue'
+import GameOn from '../components/GameOn.vue'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
+const routes = [{
     path: '/',
     name: 'Home',
     component: Home
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/lobby',
+    name: Lobby,
+    component: Lobby,
+    children: [
+      {
+        path: '',
+        name: 'RoomList',
+        component: RoomList
+      }
+    ]
+  },
+  {
+    path: '/room',
+    name: 'RoomEnter',
+    component: Lobby,
+    children: [
+      {
+        path: '',
+        name: 'WaitingRoom',
+        component: RoomEnter
+      }
+    ]
+  },
+  {
+    path: '/game-on',
+    name: 'Game On',
+    component: Lobby,
+    children: [
+      {
+        path: '',
+        name: 'GameOnComp',
+        component: GameOn
+      }
+    ]
   }
 ]
 
