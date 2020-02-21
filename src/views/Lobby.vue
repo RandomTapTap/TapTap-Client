@@ -1,6 +1,6 @@
 <template>
   <div>
-    <center><h2>Taap-Taaap-Taaaaappp-Taaaaaaaaaaappppp Racer</h2></center>
+    <center><h2>Random Tap-Tap Racer</h2></center>
     <router-view />
   </div>
 </template>

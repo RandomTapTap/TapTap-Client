@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Lobby from '../views/Lobby.vue'
 import RoomList from '../components/RoomList.vue'
 import RoomEnter from '../components/RoomEnter.vue'
+import GameOn from '../components/GameOn.vue'
 
 Vue.use(VueRouter)
 
@@ -14,20 +15,32 @@ const routes = [{
   },
   {
     path: '/lobby',
-    name: 'Lobby',
+    name: Lobby,
     component: Lobby,
     children: [
       {
         path: '',
         name: 'RoomList',
         component: RoomList
-      },
-      {
-        path: '/room',
-        name: 'RoomEnter',
-        component: RoomEnter
       }
     ]
+  },
+  {
+    path: '/game-on',
+    name: 'Game On',
+    component: Lobby,
+    children: [
+      {
+        path: '',
+        name: 'GameOnComp',
+        component: GameOn
+      }
+    ]
+  },
+  {
+    path: '/room',
+    name: 'RoomEnter',
+    component: RoomEnter
   }
 ]
 
