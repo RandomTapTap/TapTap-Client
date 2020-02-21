@@ -73,8 +73,8 @@
 
         <b-modal id="add-form"
             title="New Room"
-            hide-footer=true
-            centered=true
+            hide-footer
+            centered
         >
             <b-form @submit.prevent="createRoom">
                 <b-form-group
@@ -114,7 +114,7 @@ export default {
           this.$router.push('/')
       },
       createRoom () {
-          socket.emit('createRoom', {
+          socket.emit('createdRoom', {
               RoomName: this.room_name,
               username: localStorage.username
           })
